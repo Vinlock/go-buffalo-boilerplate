@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    environment:
+      GO_ENV: development
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: coredb
+      SESSION_SECRET: 1234
+      PORT: 3000
+      ADDR: 0.0.0.0
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+  database:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: coredb
+    volumes:
+      - database-data:/var/lib/postgressql/data
+
+volumes:
+  database-data:
